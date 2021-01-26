@@ -14,6 +14,7 @@ export interface AuthLoading {
 
 export interface AuthFail {
   type: typeof AUTH_FAIL;
+  payload: string;
 }
 
 export interface SignUp {
