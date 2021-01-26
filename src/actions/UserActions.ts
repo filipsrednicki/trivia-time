@@ -5,7 +5,7 @@ import {
   LOG_OUT,
   SIGN_UP,
   UserType,
-} from "./UserActionTypes";
+} from "./userActionTypes";
 
 export const userLoading = () => {
   return {

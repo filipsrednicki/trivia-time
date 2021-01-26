@@ -6,7 +6,7 @@ import {
   SIGN_UP,
   USER_LOADING,
   AUTH_FAIL,
-} from "../actions/UserActionTypes";
+} from "../actions/userActionTypes";
 
 interface UserState {
   loading: boolean;
