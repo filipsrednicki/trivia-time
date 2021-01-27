@@ -1,0 +1,32 @@
+.modal {
+  position: fixed;
+  background-color: rgba(211, 211, 211, 0.507);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  div {
+    position: relative;
+    .close-icon {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      z-index: 2;
+      cursor: pointer;
+      width: 16px;
+    }
+  }
+  .auth {
+    max-width: 320px;
+    min-width: 270px;
+    background-color: $white;
+    border-radius: 6px;
+    padding: 20px 10px;
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
