@@ -1,0 +1,40 @@
+nav {
+  height: 70px;
+  width: 100%;
+  background-color: $secondary-bg;
+  box-shadow: 0 0 5px 1px #000;
+  display: grid;
+  grid-template-columns: 60% 1fr;
+  align-items: center;
+  .nav-links {
+    justify-self: start;
+    a {
+      text-decoration: none;
+      color: #3a404e;
+      margin-left: 40px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+  .nav-btns {
+    justify-self: end;
+    margin-right: 40px;
+    button {
+      outline: none;
+      border: 0;
+      background-color: $btn-bg;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      &:hover {
+        background-color: darken($btn-bg, 10%);
+      }
+    }
+  }
+}
