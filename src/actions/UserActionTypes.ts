@@ -6,6 +6,7 @@ export const AUTH_FAIL = "AUTH_FAIL";
 
 export type UserType = {
   email: string;
+  username: string | undefined | null;
 };
 
 export interface AuthLoading {
