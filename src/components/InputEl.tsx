@@ -8,6 +8,7 @@ interface Props {
   setValue: (e: string) => void;
   minLength?: number;
   maxLength?: number;
+  className?: string;
 }
 
 const InputEl: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const InputEl: React.FC<Props> = ({
   setValue,
   minLength,
   maxLength,
+  className
 }) => {
   return (
     <>
@@ -29,6 +31,7 @@ const InputEl: React.FC<Props> = ({
         onChange={(e) => setValue(e.target.value)}
         minLength={minLength}
         maxLength={maxLength}
+        className={className}
         required
       />
     </>
