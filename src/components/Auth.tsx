@@ -13,6 +13,7 @@ const Auth: React.FC = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
   const [isUsernameTaken, setIsUsernameTaken] = useState(false);
+  const [doPasswordsMatch, setDoPasswordsMatch] = useState(true);
 
   const handleUsernameChange = (name: string) => {
     setUsername(name);
@@ -38,13 +39,33 @@ const Auth: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignUpMode) {
-      if (isUsernameTaken) {
+      if (isUsernameInvalid || isUsernameTaken) {
         return;
       }
       dispatch(signUp(email, username, password));
     } else {
       dispatch(logIn(email, password));
     }
+  };
+
+  const arePasswordsMatching = (pw1: string, pw2: string) => {
+    if (pw1 === pw2 || !pw2) {
+      setDoPasswordsMatch(true);
+    } else {
+      setDoPasswordsMatch(false);
+    }
+  };
+
+  const handlePasswordChange = (pass: string) => {
+    setPassword(pass);
+    if (isSignUpMode) {
+      arePasswordsMatching(pass, confirmPassword);
+    }
+  };
+
+  const handleConfirmPasswordChange = (pass: string) => {
+    setConfirmPassword(pass);
+    arePasswordsMatching(password, pass);
   };
 
   return (
@@ -91,20 +112,32 @@ const Auth: React.FC = () => {
           label="Password"
           type="password"
           value={password}
-          setValue={setPassword}
+          setValue={handlePasswordChange}
           minLength={6}
         />
         {isSignUpMode && (
-          <InputEl
-            id="confirm-password"
-            label="Confirm Password"
-            type="password"
-            value={confirmPassword}
-            setValue={setConfirmPassword}
-            minLength={6}
-          />
+          <>
+            <InputEl
+              id="confirm-password"
+              label="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              setValue={handleConfirmPasswordChange}
+              minLength={6}
+              {...(!doPasswordsMatch && {
+                className: "invalid-input",
+              })}
+            />
+            {!doPasswordsMatch && (
+              <span className="invalid-msg">
+                Passwords do not match. Please try again.
+              </span>
+            )}
+          </>
         )}
-        <button type="submit">{isSignUpMode ? "Sign Up" : "Log In"}</button>
+        <button type="submit" disabled={isUsernameInvalid || isUsernameTaken}>
+          {isSignUpMode ? "Sign Up" : "Log In"}
+        </button>
 
         <span className="auth-mode-btn" onClick={() => setIsSignUpMode((bool) => !bool)}>
           {isSignUpMode
