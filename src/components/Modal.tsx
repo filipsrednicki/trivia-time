@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import closeIcon from "../icons/im-x.svg";
+import { ReactComponent as CloseIcon} from "../icons/im-x.svg";
 
 interface Props {
   isShown: boolean;
@@ -20,6 +20,7 @@ const Modal = ({
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!isShown) return;
     document.body.style.overflow = "hidden";
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -34,7 +35,7 @@ const Modal = ({
       document.removeEventListener("keydown", handleKey);
       document.body.style.overflow = "";
     };
-  }, [closeModal, isLoading]);
+  }, [closeModal, isLoading, isShown]);
 
   if (!isShown) {
     return null;
@@ -52,12 +53,9 @@ const Modal = ({
     <div className="modal" ref={modalRef} onMouseDown={handleMouseDown}>
       <div>
         {closeButton && !isLoading && (
-          <img
-            src={closeIcon}
-            className="close-icon"
-            alt="Close Icon"
-            onClick={closeModal}
-          />
+          <div className="close-icon" onClick={closeModal}>
+            <CloseIcon/>
+          </div>
         )}
         {children}
       </div>
