@@ -7,7 +7,7 @@ export const addTrivia = (trivia: Trivia) => {
   };
 };
 
-export const removeTrivia = (id: number) => {
+export const removeTrivia = (id: string) => {
   return {
     type: REMOVE_TRIVIA,
     payload: id,

@@ -3,14 +3,13 @@ export const REMOVE_TRIVIA = "REMOVE_TRIVIA";
 export const CLEAR_TRIVIA = "CLEAR_TRIVIA";
 
 export interface Trivia {
-  airdate: string;
-  answer: string;
-  category_id: number;
-  id: number;
+  category: string;
+  correct_answer: string;
+  difficulty: string;
+  id: string;
+  incorrect_answers: string[];
   question: string;
-  value: number;
-  invalid_count: null | number;
-  category_name?: string;
+  type: string;
 }
 
 export interface AddTrivia {
@@ -20,7 +19,7 @@ export interface AddTrivia {
 
 export interface RemoveTrivia {
   type: typeof REMOVE_TRIVIA;
-  payload: number;
+  payload: string;
 }
 
 export interface ClearTrivia {
