@@ -6,6 +6,7 @@ import { RootStore } from "../../store";
 import { Link } from "react-router-dom";
 import CustomSet from "./CustomSet";
 import TriviaCategories from "./TriviaCategories";
+import "./_triviaSet.scss";
 
 const CreateTriviaSet: React.FC = () => {
   const [showCustomSet, setShowCustomSet] = useState(false);
