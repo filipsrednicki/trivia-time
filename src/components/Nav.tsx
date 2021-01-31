@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
 import { logOut } from "../actions/userActions";
 import Modal from "./Modal";
-import Auth from "./Auth";
+import Auth from "./Auth/Auth";
 
 const Nav: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);

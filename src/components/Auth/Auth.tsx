@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logIn, signUp } from "../actions/userActions";
-import { database } from "../firebase";
-import InputEl from "./InputEl";
+import { logIn, signUp } from "../../actions/userActions";
+import { database } from "../../firebase";
+import InputEl from "../InputEl";
+import "./_auth.scss";
 
 const Auth: React.FC = () => {
   const dispatch = useDispatch();
