@@ -10,9 +10,9 @@ interface TopPlayer {
   name: string;
 }
 
-interface Clues {
-  allow: boolean;
-  penaltyPerClue: number;
+interface FiftyFifty {
+  isAllowed: boolean;
+  penalty: number;
 }
 
 export interface TriviaSet {
@@ -23,7 +23,7 @@ export interface TriviaSet {
   timePerQuestion: number;
   maxPoints: number;
   creator: string | undefined | null;
-  clues: Clues;
+  fiftyFifty: FiftyFifty;
   leaderboard?: TopPlayer[];
   trivias: Trivia[];
 }
@@ -32,8 +32,8 @@ const ConfigureTriviaSet: React.FC = () => {
   const [name, setName] = useState("");
   const [isPublic, setIsPublic] = useState(true);
   const [timePerQ, setTimePerQ] = useState(30);
-  const [isClue, setIsClue] = useState(false);
-  const [cluePenalty, setCluePenalty] = useState(0);
+  const [isFiftyFifty, setIsFiftyFifty] = useState(false);
+  const [ffPenalty, setFfPenalty] = useState(0);
   const { trivias, user } = useSelector((state: RootStore) => state);
   const dispatch = useDispatch();
 
@@ -41,20 +41,30 @@ const ConfigureTriviaSet: React.FC = () => {
     e.preventDefault();
     let maxPoints: number = 0;
     trivias.forEach((t) => {
-      maxPoints += t.value;
+      switch (t.difficulty) {
+        case "easy":
+          maxPoints += 200;
+          break;
+        case "medium":
+          maxPoints += 400;
+          break;
+        case "hard":
+          maxPoints += 600;
+          break;
+      }
     });
 
     const triviaSet: TriviaSet = {
       name: name,
       public: isPublic,
       timePerQuestion: timePerQ,
-      clues: {
-        allow: isClue,
-        penaltyPerClue: cluePenalty,
-      },
+      maxPoints: maxPoints,
       creator: user.user?.username,
       date: new Date().toISOString(),
-      maxPoints: maxPoints,
+      fiftyFifty: {
+        isAllowed: isFiftyFifty,
+        penalty: ffPenalty,
+      },
       trivias: trivias,
       leaderboard: [],
       rating: [],
@@ -124,25 +134,27 @@ const ConfigureTriviaSet: React.FC = () => {
         />
 
         <div>
-          <p>Turn clues on?</p>
+          <p>Allow 50:50 (2 wrong answers get crossed out)</p>
           <input
             type="checkbox"
             id="clues"
-            checked={isClue}
-            onChange={() => setIsClue((c) => !c)}
+            checked={isFiftyFifty}
+            onChange={() => setIsFiftyFifty((c) => !c)}
           />
           <label htmlFor="clues">On</label>
           <div>
-            <label htmlFor="clue-penalty">Penalty per clue (in percent) </label>
+            <label htmlFor="clue-penalty">
+              Penalty for using 50:50 (in percent){" "}
+            </label>
             <input
               type="number"
               id="clue-penalty"
               name="penalty"
-              min={5}
+              min={0}
               max={50}
-              value={cluePenalty}
-              disabled={!isClue}
-              onChange={(e) => setCluePenalty(+e.target.value)}
+              value={ffPenalty}
+              disabled={!isFiftyFifty}
+              onChange={(e) => setFfPenalty(+e.target.value)}
             />
           </div>
         </div>

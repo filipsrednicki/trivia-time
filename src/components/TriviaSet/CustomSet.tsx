@@ -13,7 +13,7 @@ const CustomSet: React.FC<Props> = ({ showCustomSet, setShowCustomSet }) => {
   const trivias = useSelector((state: RootStore) => state.trivias);
   const dispatch = useDispatch();
   
-  const removeFromTriviaSet = (id: number) => {
+  const removeFromTriviaSet = (id: string) => {
     dispatch(removeTrivia(id));
     if (showCustomSet && trivias.length < 2) {
       setShowCustomSet(false);
@@ -27,10 +27,10 @@ const CustomSet: React.FC<Props> = ({ showCustomSet, setShowCustomSet }) => {
         <div key={trivia.id}>
           <p>
             <span>Category: </span>
-            {trivia.category_name}
+            {trivia.category}
           </p>
           <p>{trivia.question}</p>
-          <span>{trivia.value / 100}/10</span>
+          <span>{trivia.difficulty}</span>
           <button onClick={() => removeFromTriviaSet(trivia.id)}>
             <XIcon />
           </button>

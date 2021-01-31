@@ -1,57 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Trivia } from "../../actions/triviaActionTypes";
 import CategoryResult from "./CategoryResult";
+import uuid from "react-uuid";
 
 interface CategoriesList {
-  id: number;
-  title: string;
-  clues_count: number;
-}
-
-export interface Category {
   id: number;
   name: string;
 }
 
-const initialCategory: Category = {
-  id: -1,
-  name: "",
-};
-
 const TriviaCategories: React.FC = () => {
   const [categoriesList, setCategoriesList] = useState<CategoriesList[]>([]);
-  const [currentCategory, setCurrentCategory] = useState<Category>(
-    initialCategory
-  );
+  const [currentCategory, setCurrentCategory] = useState<number>(-1);
   const [catTrivias, setCatTrivias] = useState<Trivia[]>([]);
-  const [pageNum, setPageNum] = useState(0);
 
   useEffect(() => {
-    fetch("http://jservice.io/api/categories?offset=" + pageNum + "&count=15")
+    fetch("https://opentdb.com/api_category.php")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        setCategoriesList(res);
+        setCategoriesList(res.trivia_categories);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [pageNum]);
+  }, []);
 
   const onCategoryClick = (id: number) => {
-    fetch("http://jservice.io/api/category?id=" + id)
+    setCurrentCategory(id);
+    fetch("https://opentdb.com/api.php?amount=15&category=" + id)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        const trivia: Trivia[] = res.clues.filter(
-          (clue: Trivia) => clue.invalid_count === null
-        );
-        console.log(trivia);
-        setCatTrivias(trivia);
-        setCurrentCategory({
-          id: res.id,
-          name: res.title,
-        });
+        if (res.response_code === 0) {
+          const trivias: Trivia[] = res.results;
+          trivias.forEach((t: Trivia) => {
+            t.id = uuid();
+          });
+          setCatTrivias(res.results);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -67,10 +51,10 @@ const TriviaCategories: React.FC = () => {
             key={cat.id}
             onClick={() => onCategoryClick(cat.id)}
             className={
-              currentCategory.id === cat.id ? "active-category" : undefined
+              currentCategory === cat.id ? "active-category" : undefined
             }
           >
-            {cat.title}
+            {cat.name}
           </div>
         ))}
       </div>
@@ -78,11 +62,7 @@ const TriviaCategories: React.FC = () => {
       {catTrivias.length < 1 && <h1>Please, choose a category</h1>}
       <div className="category-trivias">
         {catTrivias.map((trivia) => (
-          <CategoryResult
-            trivia={trivia}
-            currentCategory={currentCategory}
-            key={trivia.id}
-          />
+          <CategoryResult trivia={trivia} key={trivia.id} />
         ))}
       </div>
     </>
