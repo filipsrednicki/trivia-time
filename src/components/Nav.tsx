@@ -21,8 +21,8 @@ const Nav: React.FC = () => {
     <nav>
       <div className="nav-links">
         <Link to="/">Home</Link>
-        <Link to="/trivia-sets">Trivia Sets</Link>
-        {user && <Link to="/create-trivia">Create Trivia Set</Link>}
+        <Link to="/browse-sets">Browse</Link>
+        {user && <Link to="/create-set">Create</Link>}
       </div>
       <div className="nav-btns">
         {!user ? (
