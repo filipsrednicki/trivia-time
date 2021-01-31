@@ -12,3 +12,84 @@ default-btn {
     background-color: darken($btn-bg, 10%);
   }
 }
+
+.modal {
+  position: fixed;
+  background-color: rgba(211, 211, 211, 0.507);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  div {
+    position: relative;
+    overflow-y: auto;
+    .close-icon {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      z-index: 2;
+      cursor: pointer;
+      svg {
+        width: 16px;
+        &:hover {
+          fill: darken($blue, 10%);
+        }
+      }
+    }
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  h1 {
+    text-align: center;
+    margin-top: 0;
+  }
+  label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+  input {
+    padding: 5px 10px;
+    outline: none;
+    border: 2px solid transparent;
+    background-color: lighten($main-bg, 8%);
+    border-radius: 4px;
+    &:focus {
+      border-color: lighten($blue, 25%);
+    }
+    &.invalid-input {
+      border: 2px solid red;
+    }
+    &:disabled {
+      color: #cccccc;
+    }
+  }
+  .invalid-msg {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: red;
+    margin-left: 3px;
+  }
+  button {
+    margin: 15px 0;
+    @extend default-btn;
+  }
+  .auth-mode-btn {
+    font-size: 0.9rem;
+    color: lighten($blue, 10%);
+    margin: auto;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

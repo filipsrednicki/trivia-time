@@ -1,6 +1,8 @@
 nav {
   height: 70px;
   width: 100%;
+  position: sticky;
+  top: 0;
   background-color: $secondary-bg;
   box-shadow: 0 0 5px 1px #000;
   display: grid;
