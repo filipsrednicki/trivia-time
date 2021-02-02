@@ -7,11 +7,13 @@ import Nav from "./components/Nav";
 import { useDispatch } from "react-redux";
 import { auth } from "./firebase";
 import { logInUser, userLoading } from "./actions/userActions";
+import { getStoredSets } from "./actions/triviaActions";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getStoredSets());
     dispatch(userLoading());
     auth.onAuthStateChanged((user) => {
       if (user?.email) {
