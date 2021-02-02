@@ -9,7 +9,7 @@ interface Props {
 }
 
 const CategoryResult: React.FC<Props> = ({ trivia }) => {
-  const trivias = useSelector((state: RootStore) => state.trivias);
+  const { trivias } = useSelector((state: RootStore) => state.trivias);
   const dispatch = useDispatch();
 
   const addToTriviaSet = (trivia: Trivia) => {

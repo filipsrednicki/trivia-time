@@ -10,7 +10,7 @@ import "./_triviaSet.scss";
 
 const CreateTriviaSet: React.FC = () => {
   const [showCustomSet, setShowCustomSet] = useState(false);
-  const trivias = useSelector((state: RootStore) => state.trivias);
+  const { trivias } = useSelector((state: RootStore) => state.trivias);
 
   return (
     <div className="create-set">
@@ -21,7 +21,7 @@ const CreateTriviaSet: React.FC = () => {
         })}
       >
         {trivias.length < 5 ? (
-          "You need at least 5 questions"
+           <span>You need at least {trivias.length > 0 && trivias.length + "/"}5 questions</span>
         ) : (
           <span>{trivias.length} out of 20 max questions</span>
         )}

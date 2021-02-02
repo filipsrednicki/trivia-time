@@ -10,7 +10,7 @@ interface Props {
 }
 
 const CustomSet: React.FC<Props> = ({ showCustomSet, setShowCustomSet }) => {
-  const trivias = useSelector((state: RootStore) => state.trivias);
+  const { trivias } = useSelector((state: RootStore) => state.trivias);
   const dispatch = useDispatch();
   
   const removeFromTriviaSet = (id: string) => {

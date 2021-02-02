@@ -1,32 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CLEAR_TRIVIA, Trivia } from "../../actions/triviaActionTypes";
+import { useHistory } from "react-router-dom";
+import { CLEAR_TRIVIA, TriviaSet } from "../../actions/triviaActionTypes";
 import { database } from "../../firebase";
 import { RootStore } from "../../store";
 import InputEl from "../InputEl";
-
-interface TopPlayer {
-  score: number;
-  name: string;
-}
-
-interface FiftyFifty {
-  isAllowed: boolean;
-  penalty: number;
-}
-
-export interface TriviaSet {
-  name: string;
-  public: boolean;
-  date: string;
-  rating: number[];
-  timePerQuestion: number;
-  maxPoints: number;
-  creator: string | undefined | null;
-  fiftyFifty: FiftyFifty;
-  leaderboard?: TopPlayer[];
-  trivias: Trivia[];
-}
+import Modal from "../Modal";
 
 const ConfigureTriviaSet: React.FC = () => {
   const [name, setName] = useState("");
@@ -34,13 +13,16 @@ const ConfigureTriviaSet: React.FC = () => {
   const [timePerQ, setTimePerQ] = useState(30);
   const [isFiftyFifty, setIsFiftyFifty] = useState(false);
   const [ffPenalty, setFfPenalty] = useState(0);
+  const [showModal, setShowModal] = useState(false);
   const { trivias, user } = useSelector((state: RootStore) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if(!trivias.trivias.length) return;
     let maxPoints: number = 0;
-    trivias.forEach((t) => {
+    trivias.trivias.forEach((t) => {
       switch (t.difficulty) {
         case "easy":
           maxPoints += 200;
@@ -56,6 +38,7 @@ const ConfigureTriviaSet: React.FC = () => {
 
     const triviaSet: TriviaSet = {
       name: name,
+      id: "",
       public: isPublic,
       timePerQuestion: timePerQ,
       maxPoints: maxPoints,
@@ -65,7 +48,7 @@ const ConfigureTriviaSet: React.FC = () => {
         isAllowed: isFiftyFifty,
         penalty: ffPenalty,
       },
-      trivias: trivias,
+      trivias: trivias.trivias,
       leaderboard: [],
       rating: [],
     };
@@ -80,9 +63,15 @@ const ConfigureTriviaSet: React.FC = () => {
       } else {
         console.log("success");
         dispatch({ type: CLEAR_TRIVIA });
+        setShowModal(true);
       }
     });
   };
+
+  const closeModal = () => {
+    setShowModal(false);
+    history.push("/create-set/");
+  }
 
   return (
     <div className="config-trivia">
@@ -160,6 +149,12 @@ const ConfigureTriviaSet: React.FC = () => {
         </div>
         <button>Confirm</button>
       </form>
+      <Modal isShown={showModal} closeModal={closeModal} closeButton={true}>
+        <div className="submission-success">
+          <h2>Submission Successful!</h2>
+          <p>You can now find it in Browse tab.</p>
+        </div>
+      </Modal>
     </div>
   );
 };
