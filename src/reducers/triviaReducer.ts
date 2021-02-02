@@ -2,23 +2,35 @@ import {
   ADD_TRIVIA,
   REMOVE_TRIVIA,
   CLEAR_TRIVIA,
+  SET_FETCHED_SETS,
   Trivia,
   TriviaDispatchTypes,
+  TriviaSet,
 } from "../actions/triviaActionTypes";
 
-const defaultState: Trivia[] = [];
+interface TriviaState {
+  trivias: Trivia[];
+  fetchedSets: TriviaSet[];
+}
+
+const defaultState: TriviaState = {
+  trivias: [],
+  fetchedSets: []
+}
 
 const triviaSetReducer = (
-  state = defaultState,
+  state: TriviaState = defaultState,
   action: TriviaDispatchTypes
 ) => {
   switch (action.type) {
     case ADD_TRIVIA:
-      return [...state, action.payload];
+      return {...state, trivias: [...state.trivias, action.payload]};
     case REMOVE_TRIVIA:
-      return state.filter(trivia => trivia.id !== action.payload);
+      return {...state, trivias: state.trivias.filter(trivia => trivia.id !== action.payload)};
     case CLEAR_TRIVIA:
-      return [];
+      return {...state, trivias: []};
+    case SET_FETCHED_SETS:
+      return {...state, fetchedSets: action.payload };
     default:
       return state;
   }
