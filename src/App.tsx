@@ -5,6 +5,7 @@ import ConfigureTriviaSet from "./components/TriviaSet/ConfigureTriviaSet";
 import CreateTriviaSet from "./components/TriviaSet/CreateTriviaSet";
 import Nav from "./components/Nav";
 import Browse from "./components/Browse/Browse";
+import TriviaDetails from "./components/Browse/TriviaDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "./store";
 import { auth } from "./firebase";
@@ -29,6 +30,7 @@ const App: React.FC = () => {
     <div className="App">
       <Nav/>
       <Route path="/browse-sets" component={Browse} />
+      <Route path="/trivia-set/:id" component={TriviaDetails} />
       <Route path="/create-set" render={({ match: { url }}) => (
         <>
           {user.user ? (
