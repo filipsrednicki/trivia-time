@@ -4,11 +4,13 @@ import "./App.scss";
 import ConfigureTriviaSet from "./components/TriviaSet/ConfigureTriviaSet";
 import CreateTriviaSet from "./components/TriviaSet/CreateTriviaSet";
 import Nav from "./components/Nav";
+import Browse from "./components/Browse/Browse";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "./store";
 import { auth } from "./firebase";
 import { logInUser, userLoading } from "./actions/userActions";
 import { getStoredSets } from "./actions/triviaActions";
+
 const App: React.FC = () => {
   const user = useSelector((state: RootStore) => state.user);
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Nav/>
+      <Route path="/browse-sets" component={Browse} />
       <Route path="/create-set" render={({ match: { url }}) => (
         <>
           {user.user ? (
