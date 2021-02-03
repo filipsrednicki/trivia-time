@@ -22,7 +22,7 @@ default-btn {
   bottom: 0;
   display: grid;
   place-content: center;
-  div {
+  > div {
     position: relative;
     overflow-y: auto;
     .close-icon {
